@@ -147,7 +147,7 @@ st.components.v1.html("""
 """, height=0)
 
 # Load dataset
-df = pd.read_csv(r"C:\Users\ZA87447\Downloads\202425_data_2countries_3tiresizes (1).csv")
+df = pd.read_csv("Data/202425_data_2countries_3tiresizes (1).csv")
 
 # Sidebar Filters with Icons
 st.sidebar.header("🔍 Filters")
