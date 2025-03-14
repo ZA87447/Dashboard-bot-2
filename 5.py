@@ -5,24 +5,6 @@ import plotly.express as px
 # Page Config
 st.set_page_config(page_title="Tire Market Dashboard", layout="wide")
 
-# Light Mode using CSS
-st.markdown("""
-    <style>
-        /* Force Light Mode Theme */
-        body {
-            background-color: #ffffff;
-            color: #000000;
-        }
-        .main {
-            background-color: #ffffff;
-            color: #000000;
-        }
-        .sidebar .sidebar-content {
-            background-color: #f4f4f4;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
 # Initialize session state for view preference if not already set
 if 'view_mode' not in st.session_state:
     # Default to auto-detection
@@ -165,7 +147,7 @@ st.components.v1.html("""
 """, height=0)
 
 # Load dataset
-df = pd.read_csv("Data/202425_data_2countries_3tiresizes (1).csv")
+df = pd.read_csv(r"C:\Users\ZA87447\Downloads\202425_data_2countries_3tiresizes (1).csv")
 
 # Sidebar Filters with Icons
 st.sidebar.header("🔍 Filters")
@@ -301,19 +283,36 @@ if is_mobile_view:
     # Convert all columns to strings for center alignment
     df_top_competitors = df_top_competitors.astype(str)
 
-
-
+    # Custom CSS for dynamic dark/light mode styling
+    st.markdown("""
+        <style>
+            /* Ensure visibility in dark mode */
+            div[data-testid="stDataFrame"] {
+                background-color: rgba(255, 255, 255, 0.1) !important; /* Transparent white for dark mode */
+                color: white !important; /* White text for dark mode */
+                border-radius: 10px;
+            }
+            div[data-testid="StyledDataFrame"] table {
+                background-color: transparent !important; /* Keep table transparent */
+                color: white !important; /* Keep text visible */
+            }
+        </style>
+    """, unsafe_allow_html=True)
 
     # Format dataframe to look modern
-    st.dataframe(
-        df_top_competitors.style.set_properties(**{
-            'background-color': '#f8f9fa',
-            'border': '1px solid black',
-            'text-align': 'left'
-        }),
-        use_container_width=True
-    )
+    # st.dataframe(
+    #     df_top_competitors.style.set_properties(**{
+    #         'background-color': '#f8f9fa',
+    #         'border': '1px solid black',
+    #         'text-align': 'left'
+    #     }),
+    #     use_container_width=True
+    # )
 
+    df_top_competitors.reset_index(drop=True, inplace=True)
+    df_top_competitors.index = range(1, len(df_top_competitors) + 1)
+    # Display styled dataframe
+    st.dataframe(df_top_competitors, use_container_width=True)
 
     
     # Display top competitor info
@@ -383,6 +382,39 @@ if is_mobile_view:
     if not df_filtered.empty:
         carparc_data = df_filtered[["LUX_SUV_CARPARC", "TOTAL_CARPARC", "LUX_SUV_RATIO"]].drop_duplicates().iloc[0]
 
+        st.markdown("""
+            <style>
+                .card {
+                    background-color: #f8f8f8; /* Grey background */
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+                    width: 100%; /* Keep full width */
+                    margin-bottom: 10px;
+                }
+                .icon {
+                    font-size: 24px;
+                }
+                .title {
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    color: black; /* Ensure title is black */
+                }
+                .data-row {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 18px; /* Keep original size */
+                    padding: 8px 0; /* Restore spacing */
+                    color: black; /* Ensure text is black */
+                }
+                .highlight {
+                    font-weight: bold;
+                    color: #a370f0; /* Purple for values */
+                }
+            </style>
+        """, unsafe_allow_html=True)
+
         st.markdown(f"""
             <div class="card">
                 <div class="icon">🔹</div>
@@ -401,6 +433,7 @@ if is_mobile_view:
                 </div>
             </div>
         """, unsafe_allow_html=True)
+
     else:
         st.warning("No car parc data available for the selected filters.")
 
@@ -547,15 +580,35 @@ else:
     df_top_competitors = df_top_competitors.astype(str)
 
     # Display table with centered values
-    st.dataframe(
-        df_top_competitors.style.set_properties(**{
-            'background-color': '#f8f9fa',
-            'border': '1px solid black',
-            'text-align': 'center'
-        }),
-        use_container_width=True
-    )
+    # st.dataframe(
+    #     df_top_competitors.style.set_properties(**{
+    #         'background-color': '#f8f9fa',
+    #         'border': '1px solid black',
+    #         'text-align': 'center'
+    #     }),
+    #     use_container_width=True
+    # )
 
+    # Custom CSS for dynamic dark/light mode styling
+    st.markdown("""
+        <style>
+            /* Ensure visibility in dark mode */
+            div[data-testid="stDataFrame"] {
+                background-color: rgba(255, 255, 255, 0.1) !important; /* Transparent white for dark mode */
+                color: white !important; /* White text for dark mode */
+                border-radius: 10px;
+            }
+            div[data-testid="StyledDataFrame"] table {
+                background-color: transparent !important; /* Keep table transparent */
+                color: white !important; /* Keep text visible */
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
+    df_top_competitors.reset_index(drop=True, inplace=True)
+    df_top_competitors.index = range(1, len(df_top_competitors) + 1)
+    # Display styled dataframe
+    st.dataframe(df_top_competitors, use_container_width=True)
 
     # ---- Top Competitor Name & Market Share ----
     if not df_top_competitors.empty:
@@ -631,6 +684,39 @@ else:
     if not df_filtered.empty:
         carparc_data = df_filtered[["LUX_SUV_CARPARC", "TOTAL_CARPARC", "LUX_SUV_RATIO"]].drop_duplicates().iloc[0]
 
+        st.markdown("""
+            <style>
+                .card {
+                    background-color: #f8f8f8; /* Grey background */
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+                    width: 100%; /* Keep full width */
+                    margin-bottom: 10px;
+                }
+                .icon {
+                    font-size: 24px;
+                }
+                .title {
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    color: black; /* Ensure title is black */
+                }
+                .data-row {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 18px; /* Keep original size */
+                    padding: 8px 0; /* Restore spacing */
+                    color: black; /* Ensure text is black */
+                }
+                .highlight {
+                    font-weight: bold;
+                    color: #a370f0; /* Purple for values */
+                }
+            </style>
+        """, unsafe_allow_html=True)
+
         st.markdown(f"""
             <div class="card">
                 <div class="icon">🔹</div>
@@ -649,8 +735,10 @@ else:
                 </div>
             </div>
         """, unsafe_allow_html=True)
+
     else:
         st.warning("No car parc data available for the selected filters.")
+
 
     # ---- Top 5 Fitments ----
     st.subheader("🛞 Top 5 Fitments")
