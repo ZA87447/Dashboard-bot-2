@@ -5,6 +5,24 @@ import plotly.express as px
 # Page Config
 st.set_page_config(page_title="Tire Market Dashboard", layout="wide")
 
+# Light Mode using CSS
+st.markdown("""
+    <style>
+        /* Force Light Mode Theme */
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .main {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .sidebar .sidebar-content {
+            background-color: #f4f4f4;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # Initialize session state for view preference if not already set
 if 'view_mode' not in st.session_state:
     # Default to auto-detection
